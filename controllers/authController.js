@@ -1,18 +1,18 @@
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import User from "../models/User.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-// Generate JWT (maintenant on passe user complet)
+// Generate JWT
 const generateToken = (user) => {
   return jwt.sign(
-    { id: user._id, role: user.role }, // 👈 role ajouté ici
+    { id: user._id, role: user.role },
     process.env.JWT_SECRET,
     { expiresIn: "7d" }
   );
 };
 
 // REGISTER
-exports.register = async (req, res) => {
+export const register = async (req, res) => {
   try {
     const { name, email, address, phone, password } = req.body;
 
@@ -28,7 +28,7 @@ exports.register = async (req, res) => {
       email,
       address,
       phone,
-      password: hashedPassword
+      password: hashedPassword,
     });
 
     res.status(201).json({
@@ -36,7 +36,7 @@ exports.register = async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      token: generateToken(user) // 👈 on passe le user complet
+      token: generateToken(user),
     });
 
   } catch (error) {
@@ -45,7 +45,7 @@ exports.register = async (req, res) => {
 };
 
 // LOGIN
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -64,7 +64,7 @@ exports.login = async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      token: generateToken(user) 
+      token: generateToken(user),
     });
 
   } catch (error) {

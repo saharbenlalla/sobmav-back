@@ -1,9 +1,7 @@
-const admin = (req, res, next) => {
+export const adminOnly = (req, res, next) => {
   if (req.user && req.user.role === "admin") {
     next();
   } else {
-    res.status(403).json({ message: "Accès refusé - Admin seulement" });
+    return res.status(403).json({ message: "Accès refusé (admin seulement)" });
   }
 };
-
-module.exports = admin;

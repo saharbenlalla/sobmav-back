@@ -1,9 +1,12 @@
-// routes/userRoutes.js
-const express = require("express");
+import express from "express";
+import { getUsers, updateUserRole } from "../controllers/userController.js";
+
 const router = express.Router();
-const { getUsers, updateUserRole } = require("../controllers/userController");
 
-router.get("/", getUsers); // récupérer tous les utilisateurs
-router.put("/:id/role", updateUserRole); // modifier le rôle d'un utilisateur
+// récupérer tous les utilisateurs
+router.get("/", getUsers);
 
-module.exports = router;
+// modifier le rôle d'un utilisateur
+router.put("/:id/role", updateUserRole);
+
+export default router;
