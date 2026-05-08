@@ -9,7 +9,8 @@ export const addCollection = async (req, res) => {
       title,
       description,
       category,
-      image: req.file ? `/uploads/${req.file.filename}` : "",
+      // image: req.file ? `/uploads/${req.file.filename}` : "",
+      image: req.file ? req.file.path : "",
     });
 
     await newCollection.save();
