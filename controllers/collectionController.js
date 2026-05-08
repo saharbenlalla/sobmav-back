@@ -5,18 +5,20 @@ export const addCollection = async (req, res) => {
   try {
     const { title, description, category } = req.body;
 
+    const imageUrl = req.file ? req.file.path : "";
+
     const newCollection = new Collection({
       title,
       description,
       category,
-      // image: req.file ? `/uploads/${req.file.filename}` : "",
-      image: req.file ? req.file.path : "",
+      image: imageUrl,
     });
 
     await newCollection.save();
 
     res.status(201).json(newCollection);
   } catch (error) {
+    console.log("ERROR BACKEND:", error); // 👈 IMPORTANT
     res.status(500).json({ message: error.message });
   }
 };
