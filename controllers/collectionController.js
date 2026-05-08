@@ -1,29 +1,37 @@
 import Collection from "../models/Collection.js";
 
-// ➤ Ajouter une collection
 export const addCollection = async (req, res) => {
   try {
-    const { title, description, category } = req.body;
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
 
-    const imageUrl = req.file ? req.file.path : "";
+    if (!req.file) {
+      return res.status(400).json({
+        message: "No image uploaded",
+      });
+    }
+
+    const { title, description, category } = req.body;
 
     const newCollection = new Collection({
       title,
       description,
       category,
-      image: imageUrl,
+      image: req.file.path,
     });
 
     await newCollection.save();
 
     res.status(201).json(newCollection);
   } catch (error) {
-    console.log("ERROR BACKEND:", error); // 👈 IMPORTANT
-    res.status(500).json({ message: error.message });
+    console.log("ERROR:", error);
+
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
-// ➤ Obtenir toutes les collections
 export const getAllCollections = async (req, res) => {
   try {
     const collections = await Collection.find().sort({ createdAt: -1 });
