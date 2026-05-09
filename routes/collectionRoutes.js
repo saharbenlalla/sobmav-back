@@ -23,6 +23,6 @@ router.get("/", getAllCollections);
 router.get("/:id", getCollectionById);
 
 // ➤ Delete
-router.delete("/:id", deleteCollection);
+router.delete("/:id",protect, adminOnly, deleteCollection);
 
 export default router;
